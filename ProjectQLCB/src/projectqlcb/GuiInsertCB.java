@@ -74,7 +74,7 @@ public class GuiInsertCB extends JFrame implements MouseListener, ActionListener
         ButtonGroup bgGender = new ButtonGroup();
         pnGender.add(new JLabel("Giới tính: "));
         rbNam = new JRadioButton("Nam");
-        rbNu = new JRadioButton("Nữ");
+        rbNu = new JRadioButton("Nu");
         bgGender.add(rbNam);
         bgGender.add(rbNu);
         pnGender.add(rbNam);
@@ -132,7 +132,7 @@ public class GuiInsertCB extends JFrame implements MouseListener, ActionListener
                     if (gender.equals("Nam")) {
                         rbNam.setSelected(true);  // Tích chọn radio button cho nam
                         rbNu.setSelected(false);   // Bỏ chọn radio button cho nữ nếu có
-                    } else if (gender.equals("Nữ")) {
+                    } else if (gender.equals("Nu")) {
                         rbNu.setSelected(true);    // Tích chọn radio button cho nữ
                         rbNam.setSelected(false);   // Bỏ chọn radio button cho nam nếu có
                     }
@@ -258,6 +258,46 @@ public class GuiInsertCB extends JFrame implements MouseListener, ActionListener
                     } else {
                         JOptionPane.showMessageDialog(null, "xoa that bai!");
                     }
+                }
+            }
+        });
+//        bắt sự kiện tìm kiếm
+        btSearch.addActionListener((e) -> {
+            String sotk = tfsotk.getText().trim();
+            if(sotk.isEmpty()){
+                JOptionPane.showMessageDialog(null, "vui long nhap so tai khoan!");
+            }
+            else {
+                try {
+                    ResultSet res = QLCB.getData(sotk);
+                    if(res != null && res.next()){
+//                        xoa du lieu trong bang
+                        dfModel.setRowCount(0);
+//                        them ket qua tim kiem vao bang
+                        dfModel.addRow(new String[]{
+                            res.getString("SoTK"),
+                            res.getString("Hoten"),
+                            res.getString("GT"),
+                            res.getString("Diachi"),
+                            res.getString("Luong")
+                        });
+                        
+                        //hien thi du lieu len cac o
+                        tften.setText(res.getString("Hoten"));
+                        String gender = res.getString("GT");
+                        if(gender.equals("Nam")){
+                            rbNam.setSelected(true);
+                        }
+                        else if (gender.equals("Nu")){
+                            rbNu.setSelected(true);
+                        }
+                        tfdiachi.setText(res.getString("Diachi"));
+                        tfluong.setText(res.getString("Luong"));
+                        
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "khong tim thay can bo voi stk: " + sotk);
+                    dfModel.setRowCount(0);
                 }
             }
         });

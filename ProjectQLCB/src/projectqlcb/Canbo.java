@@ -15,7 +15,7 @@ public class Canbo {
     public Canbo() {
     }
 
-    public Canbo(String soTk, String hoTen, String gioiTinh, String diaChi, int Luong) {
+    public Canbo(String soTk, String hoTen, String gioiTinh, String diaChi, long Luong) {
         this.soTk = soTk;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
@@ -59,7 +59,7 @@ public class Canbo {
         this.diaChi = diaChi;
     }
 
-    public void setLuong(int Luong) {
+    public void setLuong(long Luong) {
         this.Luong = Luong;
     }
 }
